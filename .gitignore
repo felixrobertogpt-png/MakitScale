@@ -32,3 +32,5 @@ Thumbs.db
 # Logs
 *.log
 nohup.out
+*.txt
+aws_finops_referencia.md
