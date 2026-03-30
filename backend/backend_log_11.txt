@@ -1,0 +1,106 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.makeitcl:makitscale >-----------------------
+[INFO] Building MakitScale 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:4.0.4:run (default-cli) > test-compile @ makitscale >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ makitscale ---
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] Copying 0 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ makitscale ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 50 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ makitscale ---
+[INFO] skip non existing resourceDirectory /home/kali/Desktop/repo/MakeITcl/Angel/MakitScale/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ makitscale ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 1 source file with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] <<< spring-boot:4.0.4:run (default-cli) < test-compile @ makitscale <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:4.0.4:run (default-cli) @ makitscale ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.0.4)
+
+2026-03-29T19:36:27.185-04:00  INFO 134984 --- [makitscale] [           main] c.m.makitscale.MakitScaleApplication     : Starting MakitScaleApplication using Java 21.0.11-ea with PID 134984 (/home/kali/Desktop/repo/MakeITcl/Angel/MakitScale/backend/target/classes started by kali in /home/kali/Desktop/repo/MakeITcl/Angel/MakitScale/backend)
+2026-03-29T19:36:27.189-04:00  INFO 134984 --- [makitscale] [           main] c.m.makitscale.MakitScaleApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-03-29T19:36:28.012-04:00  INFO 134984 --- [makitscale] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-29T19:36:28.101-04:00  INFO 134984 --- [makitscale] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 78 ms. Found 10 JPA repository interfaces.
+2026-03-29T19:36:28.598-04:00  INFO 134984 --- [makitscale] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+2026-03-29T19:36:28.612-04:00  INFO 134984 --- [makitscale] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-03-29T19:36:28.612-04:00  INFO 134984 --- [makitscale] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.18]
+2026-03-29T19:36:28.654-04:00  INFO 134984 --- [makitscale] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1401 ms
+2026-03-29T19:36:28.789-04:00  INFO 134984 --- [makitscale] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-03-29T19:36:28.838-04:00  INFO 134984 --- [makitscale] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.2.7.Final
+2026-03-29T19:36:29.302-04:00  INFO 134984 --- [makitscale] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-29T19:36:29.331-04:00  INFO 134984 --- [makitscale] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-29T19:36:29.480-04:00  INFO 134984 --- [makitscale] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1f68e4e8
+2026-03-29T19:36:29.482-04:00  INFO 134984 --- [makitscale] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-29T19:36:29.506-04:00  WARN 134984 --- [makitscale] [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-29T19:36:29.527-04:00  INFO 134984 --- [makitscale] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:5432/makitscale_db]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 15.17
+	Default catalog/schema: makitscale_db/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-29T19:36:31.208-04:00  INFO 134984 --- [makitscale] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-03-29T19:36:31.328-04:00  INFO 134984 --- [makitscale] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-29T19:36:31.398-04:00  INFO 134984 --- [makitscale] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-29T19:36:32.523-04:00  INFO 134984 --- [makitscale] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+2026-03-29T19:36:32.530-04:00  INFO 134984 --- [makitscale] [           main] c.m.makitscale.MakitScaleApplication     : Started MakitScaleApplication in 5.97 seconds (process running for 6.406)
+2026-03-29T19:37:32.370-04:00  INFO 134984 --- [makitscale] [nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-03-29T19:37:32.371-04:00  INFO 134984 --- [makitscale] [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-03-29T19:37:32.373-04:00  INFO 134984 --- [makitscale] [nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-03-29T19:37:32.493-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-5] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:37:32.493-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-8] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:37:32.493-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-6] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:37:32.493-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-7] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:37:35.647-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-9] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:37:35.660-04:00 ERROR 134984 --- [makitscale] [io-8080-exec-10] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:37:44.916-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-3] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:06.839-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-8] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:06.842-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-6] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:06.847-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-8] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:06.842-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-9] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:12.417-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-3] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:26.985-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-1] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:28.529-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-7] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:38:29.709-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-6] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:40:19.206-04:00 ERROR 134984 --- [makitscale] [io-8080-exec-10] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:40:19.206-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-8] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:40:19.206-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-9] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+2026-03-29T19:40:19.206-04:00 ERROR 134984 --- [makitscale] [nio-8080-exec-6] c.m.m.security.JwtRequestFilter          : Error validando JWT token: JWT signature does not match locally computed signature. JWT validity cannot be asserted and should not be trusted.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  06:48 min
+[INFO] Finished at: 2026-03-29T19:43:09-04:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.springframework.boot:spring-boot-maven-plugin:4.0.4:run (default-cli) on project makitscale: Process terminated with exit code: 137 -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoExecutionException

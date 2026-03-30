@@ -1,0 +1,92 @@
+Warning: The allowCypressEnv configuration option is enabled. This allows any browser code to read values from Cypress.env(). This is insecure and will be removed in a future major version.
+
+1. Replace Cypress.env() calls with cy.env() (for sensitive values) or Cypress.expose() (for public configuration)
+2. Set allowCypressEnv: false in your Cypress configuration to disable Cypress.env()
+
+Learn more: https://on.cypress.io/cypress-env-migration
+
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        15.13.0                                                                        │
+  │ Browser:        Electron 138 (headless)                                                        │
+  │ Node Version:   v24.14.0 (/home/kali/.config/nvm/versions/node/v24.14.0/bin/node)              │
+  │ Specs:          1 found (core_flow.cy.ts)                                                      │
+  │ Searched:       cypress/e2e/**/*.cy.{js,jsx,ts,tsx}                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  core_flow.cy.ts                                                                 (1 of 1)
+
+
+  MakitScale — Flujo Crítico de Negocio
+    ✓ 1. Debe crear una materia prima de prueba (1417ms)
+    ✓ 2. Debe crear un proveedor de prueba (83ms)
+    ✓ 3. Debe registrar una compra y calcular el CPP correctamente (175ms)
+    ✓ 4. Debe recalcular CPP correctamente con segunda compra a precio distinto (100ms)
+    ✓ 5. Debe crear producto terminado y una receta que lo produzca (116ms)
+    ✓ 6. Debe producir un lote y descontar stock de materia prima (227ms)
+    1) 7. Debe registrar una venta y calcular el margen real correctamente
+    ✓ 8. Debe BLOQUEAR una venta si supera el stock disponible (5 panes quedan) (82ms)
+
+
+  7 passing (3s)
+  1 failing
+
+  1) MakitScale — Flujo Crítico de Negocio
+       7. Debe registrar una venta y calcular el margen real correctamente:
+
+      AssertionError: expected 201 to equal 200
+      + expected - actual
+
+      -201
+      +200
+      
+      at Context.eval (webpack://frontend/./cypress/e2e/core_flow.cy.ts:273:28)
+      at getRet (http://localhost:3000/__cypress/runner/cypress_runner.js:122798:20)
+      at tryCatcher (http://localhost:3000/__cypress/runner/cypress_runner.js:1777:23)
+      at Promise.attempt.Promise.try (http://localhost:3000/__cypress/runner/cypress_runner.js:4285:29)
+      at Context.thenFn (http://localhost:3000/__cypress/runner/cypress_runner.js:122809:66)
+      at Context.then (http://localhost:3000/__cypress/runner/cypress_runner.js:123060:21)
+
+
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      7                                                                                │
+  │ Failing:      1                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  1                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     2 seconds                                                                        │
+  │ Spec Ran:     core_flow.cy.ts                                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+  (Screenshots)
+
+  -  /home/kali/Desktop/repo/MakeITcl/Angel/MakitScale/frontend/cypress/screenshots/c     (1280x720)
+     ore_flow.cy.ts/MakitScale — Flujo Crítico de Negocio -- 7. Debe registrar una ve               
+     nta y calcular el margen real correctamente (failed).png                                       
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✖  core_flow.cy.ts                          00:02        8        7        1        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✖  1 of 1 failed (100%)                     00:02        8        7        1        -        -  
+

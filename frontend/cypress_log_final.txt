@@ -1,0 +1,66 @@
+Warning: The allowCypressEnv configuration option is enabled. This allows any browser code to read values from Cypress.env(). This is insecure and will be removed in a future major version.
+
+1. Replace Cypress.env() calls with cy.env() (for sensitive values) or Cypress.expose() (for public configuration)
+2. Set allowCypressEnv: false in your Cypress configuration to disable Cypress.env()
+
+Learn more: https://on.cypress.io/cypress-env-migration
+
+
+================================================================================
+
+  (Run Starting)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Cypress:        15.13.0                                                                        │
+  │ Browser:        Electron 138 (headless)                                                        │
+  │ Node Version:   v24.14.0 (/home/kali/.config/nvm/versions/node/v24.14.0/bin/node)              │
+  │ Specs:          1 found (core_flow.cy.ts)                                                      │
+  │ Searched:       cypress/e2e/**/*.cy.{js,jsx,ts,tsx}                                            │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────────────────────────
+                                                                                                    
+  Running:  core_flow.cy.ts                                                                 (1 of 1)
+
+
+  MakitScale — Flujo Crítico de Negocio
+    ✓ 1. Debe crear una materia prima de prueba (285ms)
+    ✓ 2. Debe crear un proveedor de prueba (57ms)
+    ✓ 3. Debe registrar una compra y calcular el CPP correctamente (87ms)
+    ✓ 4. Debe recalcular CPP correctamente con segunda compra a precio distinto (96ms)
+    ✓ 5. Debe crear producto terminado y una receta que lo produzca (87ms)
+    ✓ 6. Debe producir un lote y descontar stock de materia prima (156ms)
+    ✓ 7. Debe registrar una venta y calcular el margen real correctamente (72ms)
+    ✓ 8. Debe BLOQUEAR una venta si supera el stock disponible (5 panes quedan) (49ms)
+
+
+  8 passing (1s)
+
+
+  (Results)
+
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ Tests:        8                                                                                │
+  │ Passing:      8                                                                                │
+  │ Failing:      0                                                                                │
+  │ Pending:      0                                                                                │
+  │ Skipped:      0                                                                                │
+  │ Screenshots:  0                                                                                │
+  │ Video:        false                                                                            │
+  │ Duration:     1 second                                                                         │
+  │ Spec Ran:     core_flow.cy.ts                                                                  │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+================================================================================
+
+  (Run Finished)
+
+
+       Spec                                              Tests  Passing  Failing  Pending  Skipped  
+  ┌────────────────────────────────────────────────────────────────────────────────────────────────┐
+  │ ✔  core_flow.cy.ts                          00:01        8        8        -        -        - │
+  └────────────────────────────────────────────────────────────────────────────────────────────────┘
+    ✔  All specs passed!                        00:01        8        8        -        -        -  
+

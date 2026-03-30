@@ -1,0 +1,18 @@
+
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: makitscale_postgres
+    environment:
+      POSTGRES_USER: erp_admin
+      POSTGRES_PASSWORD: erp_password
+      POSTGRES_DB: makitscale_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
