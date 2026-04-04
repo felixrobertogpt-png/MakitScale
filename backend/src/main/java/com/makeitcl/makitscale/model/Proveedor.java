@@ -16,8 +16,9 @@ public class Proveedor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "El RUT es obligatorio")
     @Size(max = 20)
-    @Column(length = 20, unique = true)
+    @Column(length = 20, unique = true, nullable = false)
     private String rut;
 
     @NotBlank

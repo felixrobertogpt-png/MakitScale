@@ -63,7 +63,8 @@ public class BatchProduccionService {
      * @return BatchProduccion con trazabilidad completa
      */
     @Transactional
-    public BatchProduccion producir(Long recetaId, BigDecimal multiplicador, BigDecimal costosOcultos) {
+    public BatchProduccion producir(Long recetaId, BigDecimal multiplicador, BigDecimal costosOcultos,
+                                    TipoContencion tipoContencion, java.util.Map<Long, BigDecimal> empaques) {
         Receta receta = recetaRepository.findById(recetaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Receta no encontrada: " + recetaId));
 
@@ -86,6 +87,7 @@ public class BatchProduccionService {
         batch.setCantidadProducida(cantidadProducida);
         batch.setCostosOcultos(costosOcultos != null ? costosOcultos : BigDecimal.ZERO);
         batch.setEstado(EstadoBatch.COMPLETADO);
+        batch.setTipoContencion(tipoContencion != null ? tipoContencion : TipoContencion.GRANEL);
 
         BigDecimal costoMaterias = BigDecimal.ZERO;
 
@@ -127,6 +129,36 @@ public class BatchProduccionService {
             consumo.setCppAlConsumo(cppSnapshot);
             consumo.setCostoLinea(costoLinea);
             batch.addConsumo(consumo);
+        }
+
+        // Procesar empaques si es ENVASADO
+        if (batch.getTipoContencion() == TipoContencion.ENVASADO && empaques != null) {
+            for (java.util.Map.Entry<Long, BigDecimal> entry : empaques.entrySet()) {
+                Producto empaque = productoRepository.findById(entry.getKey())
+                        .orElseThrow(() -> new ResourceNotFoundException("Empaque no encontrado: " + entry.getKey()));
+                
+                BigDecimal cantidadConsumo = entry.getValue();
+                
+                if (empaque.getStockActual().compareTo(cantidadConsumo) < 0) {
+                    throw new BusinessException(
+                        String.format("Stock insuficiente de empaque '%s': disponible=%.4f, requerido=%.4f",
+                            empaque.getNombre(), empaque.getStockActual(), cantidadConsumo));
+                }
+
+                BigDecimal cppSnapshot = empaque.getCostoPromedioPonderado();
+                BigDecimal costoLinea = cantidadConsumo.multiply(cppSnapshot).setScale(SCALE, ROUNDING);
+                costoMaterias = costoMaterias.add(costoLinea);
+
+                empaque.setStockActual(empaque.getStockActual().subtract(cantidadConsumo));
+                productoRepository.save(empaque);
+
+                DetalleBatchConsumo consumo = new DetalleBatchConsumo();
+                consumo.setProducto(empaque);
+                consumo.setCantidad(cantidadConsumo);
+                consumo.setCppAlConsumo(cppSnapshot);
+                consumo.setCostoLinea(costoLinea);
+                batch.addConsumo(consumo);
+            }
         }
 
         // Calcular costos totales

@@ -303,13 +303,6 @@ export default function RecetasPage() {
                               </option>
                             ))}
                           </optgroup>
-                          <optgroup label="Prod. Terminados / Sub-ensamblajes">
-                            {prodTerminados.map((p) => (
-                              <option key={p.id} value={p.id}>
-                                {p.codigo} — {p.nombre}
-                              </option>
-                            ))}
-                          </optgroup>
                         </select>
                         <input
                           className="input-field col-span-2"

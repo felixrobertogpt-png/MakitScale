@@ -24,6 +24,10 @@ public class DetalleVenta {
     @JoinColumn(name = "venta_id", nullable = false)
     private Venta venta;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "batch_produccion_id")
+    private BatchProduccion loteProduccion;
+
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "producto_id", nullable = false)
@@ -94,4 +98,7 @@ public class DetalleVenta {
 
     public BigDecimal getMargenLinea() { return margenLinea; }
     public void setMargenLinea(BigDecimal margenLinea) { this.margenLinea = margenLinea; }
+
+    public BatchProduccion getLoteProduccion() { return loteProduccion; }
+    public void setLoteProduccion(BatchProduccion loteProduccion) { this.loteProduccion = loteProduccion; }
 }

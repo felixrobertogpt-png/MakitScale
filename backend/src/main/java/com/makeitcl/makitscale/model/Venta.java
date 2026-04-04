@@ -29,8 +29,21 @@ public class Venta {
     private String numeroFactura;
 
     @NotBlank
+    @Column(name = "rut_cliente", nullable = false, length = 20)
+    private String rutCliente;
+
+    @NotBlank
     @Column(nullable = false, length = 200)
     private String cliente;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_documento", nullable = false, length = 30)
+    private TipoDocumento tipoDocumento = TipoDocumento.FACTURA;
+
+    @NotNull
+    @Column(name = "rebaja_stock", nullable = false)
+    private Boolean rebajaStock = true;
 
     @NotNull
     @Column(name = "fecha_venta", nullable = false)
@@ -95,6 +108,12 @@ public class Venta {
 
     public String getCliente() { return cliente; }
     public void setCliente(String cliente) { this.cliente = cliente; }
+
+    public TipoDocumento getTipoDocumento() { return tipoDocumento; }
+    public void setTipoDocumento(TipoDocumento tipoDocumento) { this.tipoDocumento = tipoDocumento; }
+
+    public Boolean getRebajaStock() { return rebajaStock; }
+    public void setRebajaStock(Boolean rebajaStock) { this.rebajaStock = rebajaStock; }
 
     public LocalDate getFechaVenta() { return fechaVenta; }
     public void setFechaVenta(LocalDate fechaVenta) { this.fechaVenta = fechaVenta; }

@@ -36,6 +36,9 @@ public class DetalleCompra {
     @Column(name = "precio_unitario", nullable = false, precision = 16, scale = 6)
     private BigDecimal precioUnitario;
 
+    @Column(name = "numero_lote_proveedor", length = 50)
+    private String numeroLoteProveedor;
+
     /**
      * Subtotal = cantidad × precioUnitario (calculado automáticamente).
      */
@@ -63,4 +66,7 @@ public class DetalleCompra {
 
     public BigDecimal getSubtotal() { return subtotal; }
     public void setSubtotal(BigDecimal subtotal) { this.subtotal = subtotal; }
+
+    public String getNumeroLoteProveedor() { return numeroLoteProveedor; }
+    public void setNumeroLoteProveedor(String numeroLoteProveedor) { this.numeroLoteProveedor = numeroLoteProveedor; }
 }

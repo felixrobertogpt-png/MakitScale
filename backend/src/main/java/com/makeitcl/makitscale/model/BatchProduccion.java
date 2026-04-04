@@ -82,6 +82,10 @@ public class BatchProduccion {
     @Column(nullable = false, length = 20)
     private EstadoBatch estado = EstadoBatch.COMPLETADO;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_contencion", nullable = false, length = 20)
+    private TipoContencion tipoContencion = TipoContencion.GRANEL;
+
     @JsonManagedReference("batch-consumo")
     @OneToMany(mappedBy = "batch", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<DetalleBatchConsumo> consumos = new ArrayList<>();
@@ -138,6 +142,9 @@ public class BatchProduccion {
 
     public EstadoBatch getEstado() { return estado; }
     public void setEstado(EstadoBatch estado) { this.estado = estado; }
+
+    public TipoContencion getTipoContencion() { return tipoContencion; }
+    public void setTipoContencion(TipoContencion tipoContencion) { this.tipoContencion = tipoContencion; }
 
     public List<DetalleBatchConsumo> getConsumos() { return consumos; }
     public void setConsumos(List<DetalleBatchConsumo> consumos) { this.consumos = consumos; }

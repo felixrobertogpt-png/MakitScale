@@ -154,8 +154,8 @@ export default function ComprasPage() {
     proveedorId: 0,
     fechaCompra: new Date().toISOString().split("T")[0],
   });
-  const [lineas, setLineas] = useState<{ productoId: number; cantidad: string; precioUnitario: string }[]>([
-    { productoId: 0, cantidad: "", precioUnitario: "" },
+  const [lineas, setLineas] = useState<{ productoId: number; cantidad: string; precioUnitario: string; numeroLoteProveedor: string }[]>([
+    { productoId: 0, cantidad: "", precioUnitario: "", numeroLoteProveedor: "" },
   ]);
 
   async function fetchAll() {
@@ -171,7 +171,7 @@ export default function ComprasPage() {
   useEffect(() => { fetchAll(); }, []);
 
   function addLinea() {
-    setLineas([...lineas, { productoId: 0, cantidad: "", precioUnitario: "" }]);
+    setLineas([...lineas, { productoId: 0, cantidad: "", precioUnitario: "", numeroLoteProveedor: "" }]);
   }
 
   function removeLinea(i: number) {
@@ -203,11 +203,12 @@ export default function ComprasPage() {
           producto: { id: l.productoId } as Producto,
           cantidad: parseFloat(l.cantidad),
           precioUnitario: parseFloat(l.precioUnitario),
+          numeroLoteProveedor: l.numeroLoteProveedor || undefined,
         })),
       });
       setShowModal(false);
       setForm({ numeroFactura: "", proveedorId: 0, fechaCompra: new Date().toISOString().split("T")[0] });
-      setLineas([{ productoId: 0, cantidad: "", precioUnitario: "" }]);
+      setLineas([{ productoId: 0, cantidad: "", precioUnitario: "", numeroLoteProveedor: "" }]);
       fetchAll();
     } catch (err) {
       alert("Error: " + (err as Error).message);
@@ -369,20 +370,22 @@ export default function ComprasPage() {
                   <button type="button" className="text-xs font-medium" style={{ color: "var(--accent-cyan)" }} onClick={addLinea}>+ Agregar línea</button>
                 </div>
                 <div className="grid grid-cols-12 gap-2 mb-1 px-1">
-                  <span className="col-span-5 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Producto</span>
-                  <span className="col-span-3 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Cantidad</span>
-                  <span className="col-span-3 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Precio Unit.</span>
+                  <span className="col-span-4 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Producto</span>
+                  <span className="col-span-3 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Lote Proveedor</span>
+                  <span className="col-span-2 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Cantidad</span>
+                  <span className="col-span-2 text-xs font-medium uppercase" style={{ color: "var(--text-muted)" }}>Precio Unit.</span>
                   <span className="col-span-1"></span>
                 </div>
                 <div className="space-y-2">
                   {lineas.map((l, i) => (
                     <div key={i} className="grid grid-cols-12 gap-2 items-center p-2 rounded-lg" style={{ background: "var(--bg-primary)" }}>
-                      <select className="input-field col-span-5" value={l.productoId} onChange={(e) => updateLinea(i, "productoId", Number(e.target.value))}>
+                      <select className="input-field col-span-4" value={l.productoId} onChange={(e) => updateLinea(i, "productoId", Number(e.target.value))}>
                         <option value={0} disabled>Producto...</option>
                         {productos.map((p) => <option key={p.id} value={p.id}>{p.codigo} — {p.nombre}</option>)}
                       </select>
-                      <input className="input-field col-span-3" type="number" step="0.01" placeholder="Cantidad" value={l.cantidad} onChange={(e) => updateLinea(i, "cantidad", e.target.value)} />
-                      <input className="input-field col-span-3" type="number" step="0.01" placeholder="$ Unit." value={l.precioUnitario} onChange={(e) => updateLinea(i, "precioUnitario", e.target.value)} />
+                      <input className="input-field col-span-3" type="text" placeholder="Lote / Batch" value={l.numeroLoteProveedor} onChange={(e) => updateLinea(i, "numeroLoteProveedor", e.target.value)} />
+                      <input className="input-field col-span-2" type="number" step="0.01" placeholder="Cant." value={l.cantidad} onChange={(e) => updateLinea(i, "cantidad", e.target.value)} />
+                      <input className="input-field col-span-2" type="number" step="0.01" placeholder="$ Unit." value={l.precioUnitario} onChange={(e) => updateLinea(i, "precioUnitario", e.target.value)} />
                       <button type="button" className="col-span-1 text-center" style={{ color: "var(--accent-rose)" }} onClick={() => removeLinea(i)}>✕</button>
                     </div>
                   ))}

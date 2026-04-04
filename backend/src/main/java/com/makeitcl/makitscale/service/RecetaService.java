@@ -4,6 +4,9 @@ import com.makeitcl.makitscale.model.DetalleReceta;
 import com.makeitcl.makitscale.model.Receta;
 import com.makeitcl.makitscale.model.Empresa;
 import com.makeitcl.makitscale.repository.RecetaRepository;
+import com.makeitcl.makitscale.repository.ProductoRepository;
+import com.makeitcl.makitscale.model.Producto;
+import com.makeitcl.makitscale.model.TipoProducto;
 import com.makeitcl.makitscale.security.TenantContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +31,11 @@ public class RecetaService {
     private static final RoundingMode ROUNDING = RoundingMode.HALF_UP;
 
     private final RecetaRepository recetaRepository;
+    private final ProductoRepository productoRepository;
 
-    public RecetaService(RecetaRepository recetaRepository) {
+    public RecetaService(RecetaRepository recetaRepository, ProductoRepository productoRepository) {
         this.recetaRepository = recetaRepository;
+        this.productoRepository = productoRepository;
     }
 
     public List<Receta> listarTodas() {
@@ -52,6 +57,12 @@ public class RecetaService {
         e.setId(TenantContext.getCurrentTenant());
         receta.setEmpresa(e);
         for (DetalleReceta detalle : receta.getDetalles()) {
+            Producto p = productoRepository.findByIdAndEmpresaId(detalle.getProducto().getId(), TenantContext.getCurrentTenant())
+                .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado con ID: " + detalle.getProducto().getId()));
+            if (p.getTipoProducto() == TipoProducto.PRODUCTO_TERMINADO) {
+                throw new RuntimeException("No se pueden usar productos terminados como ingredientes en una receta");
+            }
+            detalle.setProducto(p);
             detalle.setReceta(receta);
         }
         return recetaRepository.save(receta);
@@ -68,6 +79,12 @@ public class RecetaService {
         // Reemplazar detalles
         existente.getDetalles().clear();
         for (DetalleReceta detalle : datosActualizados.getDetalles()) {
+            Producto p = productoRepository.findByIdAndEmpresaId(detalle.getProducto().getId(), TenantContext.getCurrentTenant())
+                .orElseThrow(() -> new RuntimeException("Ingrediente no encontrado con ID: " + detalle.getProducto().getId()));
+            if (p.getTipoProducto() == TipoProducto.PRODUCTO_TERMINADO) {
+                throw new RuntimeException("No se pueden usar productos terminados como ingredientes en una receta");
+            }
+            detalle.setProducto(p);
             existente.addDetalle(detalle);
         }
 

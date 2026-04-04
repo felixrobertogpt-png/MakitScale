@@ -5,7 +5,19 @@
 
 export enum TipoProducto {
   MATERIA_PRIMA = "MATERIA_PRIMA",
+  EMPAQUE_INSUMO = "EMPAQUE_INSUMO",
   PRODUCTO_TERMINADO = "PRODUCTO_TERMINADO",
+}
+
+export enum TipoDocumento {
+  FACTURA = "FACTURA",
+  GUIA_DESPACHO = "GUIA_DESPACHO",
+  NOTA_VENTA = "NOTA_VENTA",
+}
+
+export enum TipoContencion {
+  GRANEL = "GRANEL",
+  ENVASADO = "ENVASADO",
 }
 
 export interface UnidadMedida {
@@ -45,6 +57,7 @@ export interface DetalleCompra {
   productoId?: number;
   cantidad: number;
   precioUnitario: number;
+  numeroLoteProveedor?: string;
   subtotal?: number;
 }
 
@@ -105,6 +118,7 @@ export enum EstadoBatch {
 export interface DetalleBatchConsumo {
   id?: number;
   producto?: Producto;
+  detalleCompraOrigen?: DetalleCompra;
   cantidad: number;
   cppAlConsumo: number;
   costoLinea: number;
@@ -116,6 +130,7 @@ export interface BatchProduccion {
   receta?: Receta;
   productoResultante?: Producto;
   cantidadProducida: number;
+  tipoContencion?: TipoContencion;
   costoMaterias: number;
   costosOcultos: number;
   costoTotal: number;
@@ -130,6 +145,7 @@ export interface BatchProduccion {
 export interface DetalleVenta {
   id?: number;
   producto?: Producto;
+  loteProduccion?: BatchProduccion;
   cantidad: number;
   precioVenta: number;
   cppAlVenta?: number;
@@ -142,6 +158,8 @@ export interface Venta {
   id?: number;
   numeroFactura: string;
   cliente: string;
+  tipoDocumento?: TipoDocumento;
+  rebajaStock?: boolean;
   fechaVenta: string;
   totalVenta?: number;
   costoRealTotal?: number;

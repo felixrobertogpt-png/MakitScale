@@ -55,8 +55,24 @@ public class BatchProduccionController {
         BigDecimal costosOcultos = new BigDecimal(
                 body.getOrDefault("costosOcultos", "0").toString()
         );
+        
+        com.makeitcl.makitscale.model.TipoContencion tipo = null;
+        if (body.containsKey("tipoContencion")) {
+            tipo = com.makeitcl.makitscale.model.TipoContencion.valueOf(body.get("tipoContencion").toString());
+        }
 
-        BatchProduccion batch = batchService.producir(recetaId, multiplicador, costosOcultos);
+        java.util.Map<Long, BigDecimal> empaquesMap = new java.util.HashMap<>();
+        if (body.containsKey("empaques")) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> empaquesList = (List<Map<String, Object>>) body.get("empaques");
+            for (Map<String, Object> item : empaquesList) {
+                Long pId = Long.valueOf(item.get("productoId").toString());
+                BigDecimal q = new BigDecimal(item.get("cantidad").toString());
+                empaquesMap.put(pId, q);
+            }
+        }
+
+        BatchProduccion batch = batchService.producir(recetaId, multiplicador, costosOcultos, tipo, empaquesMap);
         return ResponseEntity.status(HttpStatus.CREATED).body(batch);
     }
 }

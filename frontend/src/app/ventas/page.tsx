@@ -21,7 +21,13 @@ export default function VentasPage() {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [form, setForm] = useState({ numeroFactura: "", cliente: "", fechaVenta: "" });
+  const [form, setForm] = useState({
+    numeroFactura: "",
+    cliente: "",
+    fechaVenta: "",
+    tipoDocumento: "FACTURA",
+    rebajaStock: true
+  });
   const [lineas, setLineas] = useState<LineaVenta[]>([]);
   const [detailVenta, setDetailVenta] = useState<Venta | null>(null);
 
@@ -84,6 +90,8 @@ export default function VentasPage() {
       await createVenta({
         numeroFactura: form.numeroFactura,
         cliente: form.cliente,
+        tipoDocumento: form.tipoDocumento as any,
+        rebajaStock: form.rebajaStock,
         fechaVenta: form.fechaVenta,
         detalles: lineas.map((l) => ({
           producto: { id: l.productoId } as Producto,
@@ -92,7 +100,7 @@ export default function VentasPage() {
         })),
       });
       setShowModal(false);
-      setForm({ numeroFactura: "", cliente: "", fechaVenta: "" });
+      setForm({ numeroFactura: "", cliente: "", fechaVenta: "", tipoDocumento: "FACTURA", rebajaStock: true });
       setLineas([]);
       fetchAll();
       toast.success("Venta registrada exitosamente");
@@ -204,7 +212,14 @@ export default function VentasPage() {
             <tbody>
               {detailVenta.detalles?.map((d, i) => (
                 <tr key={i}>
-                  <td style={{ color: "var(--text-primary)" }}>{d.producto?.nombre || "—"}</td>
+                  <td style={{ color: "var(--text-primary)" }}>
+                    {d.producto?.nombre || "—"}
+                    {d.loteProduccion && (
+                      <div className="text-xs mt-1" style={{ color: "var(--text-secondary)" }}>
+                        <span className="opacity-70">Lote origen:</span> <span className="font-mono text-[10px]" style={{ color: "var(--accent-cyan)" }}>{d.loteProduccion.numeroLote}</span>
+                      </div>
+                    )}
+                  </td>
                   <td className="money">{formatNumber(d.cantidad)}</td>
                   <td className="money">{formatCLP(d.precioVenta)}</td>
                   <td className="money" style={{ color: "var(--accent-amber)" }}>{formatCLP(d.cppAlVenta || 0)}</td>
@@ -251,21 +266,44 @@ export default function VentasPage() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="input-label">Nº Factura</label>
+              <div className="grid grid-cols-5 gap-3">
+                <div className="col-span-1">
+                  <label className="input-label">Documento</label>
+                  <select className="input-field" value={form.tipoDocumento}
+                    onChange={(e) => setForm({ ...form, tipoDocumento: e.target.value })}>
+                    <option value="FACTURA">Factura</option>
+                    <option value="GUIA_DESPACHO">Guía de Despacho</option>
+                    <option value="NOTA_VENTA">Nota Venta / Cot.</option>
+                  </select>
+                </div>
+                <div className="col-span-1">
+                  <label className="input-label">Nº Doc.</label>
                   <input className="input-field" placeholder="FV-001" value={form.numeroFactura}
                     onChange={(e) => setForm({ ...form, numeroFactura: e.target.value })} required />
                 </div>
-                <div>
+                <div className="col-span-1">
                   <label className="input-label">Cliente</label>
                   <input className="input-field" placeholder="Nombre del cliente" value={form.cliente}
                     onChange={(e) => setForm({ ...form, cliente: e.target.value })} required />
                 </div>
-                <div>
+                <div className="col-span-1">
                   <label className="input-label">Fecha</label>
                   <input className="input-field" type="date" value={form.fechaVenta}
                     onChange={(e) => setForm({ ...form, fechaVenta: e.target.value })} required />
+                </div>
+                <div className="col-span-1 flex flex-col justify-end pb-2">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="w-4 h-4 rounded" 
+                      style={{ accentColor: "var(--accent-cyan)" }}
+                      checked={form.rebajaStock}
+                      onChange={(e) => setForm({ ...form, rebajaStock: e.target.checked })}
+                    />
+                    <span className="text-xs font-medium" style={{ color: "var(--text-primary)" }}>
+                      Descontar Stock
+                    </span>
+                  </label>
                 </div>
               </div>
 

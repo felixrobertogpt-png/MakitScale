@@ -1,28 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getRecetas, getBatches, producirBatch, formatCLP, formatNumber } from "@/lib/api";
-import type { Receta, BatchProduccion } from "@/lib/types";
+import { getRecetas, getBatches, producirBatch, getProductos, formatCLP, formatNumber } from "@/lib/api";
+import type { Receta, BatchProduccion, Producto } from "@/lib/types";
+import { TipoProducto } from "@/lib/types";
 import toast from "react-hot-toast";
 
 export default function ProduccionPage() {
   const [recetas, setRecetas] = useState<Receta[]>([]);
   const [batches, setBatches] = useState<BatchProduccion[]>([]);
+  const [empaquesData, setEmpaquesData] = useState<Producto[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [producing, setProducing] = useState(false);
+  
   const [form, setForm] = useState({
     recetaId: 0,
     multiplicador: "1",
     costosOcultos: "0",
+    tipoContencion: "GRANEL",
   });
+  const [empaques, setEmpaques] = useState<{productoId: number, cantidad: string}[]>([]);
   const [lastResult, setLastResult] = useState<BatchProduccion | null>(null);
 
   async function fetchAll() {
     try {
-      const [r, b] = await Promise.all([getRecetas(), getBatches()]);
+      const [r, b, emp] = await Promise.all([getRecetas(), getBatches(), getProductos(TipoProducto.EMPAQUE_INSUMO)]);
       setRecetas(r);
       setBatches(b);
+      setEmpaquesData(emp);
     } catch {
       console.error("Error de conexión");
     } finally {
@@ -40,10 +46,15 @@ export default function ProduccionPage() {
         recetaId: form.recetaId,
         multiplicador: parseFloat(form.multiplicador),
         costosOcultos: parseFloat(form.costosOcultos) || 0,
+        tipoContencion: form.tipoContencion,
+        empaques: form.tipoContencion === "ENVASADO" 
+          ? empaques.map(e => ({ productoId: e.productoId, cantidad: parseFloat(e.cantidad) || 0 }))
+          : undefined,
       });
       setLastResult(result);
       setShowModal(false);
-      setForm({ recetaId: 0, multiplicador: "1", costosOcultos: "0" });
+      setForm({ recetaId: 0, multiplicador: "1", costosOcultos: "0", tipoContencion: "GRANEL" });
+      setEmpaques([]);
       fetchAll();
       toast.success("Lote producido exitosamente");
     } catch (err: any) {
@@ -125,7 +136,7 @@ export default function ProduccionPage() {
               <tr>
                 <th>Lote</th>
                 <th>Receta</th>
-                <th>Producido</th>
+                <th>Producido / Tipo</th>
                 <th>Costo Materias</th>
                 <th>C. Ocultos</th>
                 <th>Costo Total</th>
@@ -143,7 +154,8 @@ export default function ProduccionPage() {
                     {b.receta?.nombre || "—"}
                   </td>
                   <td className="money">
-                    {formatNumber(b.cantidadProducida)}
+                    {formatNumber(b.cantidadProducida)} <br/>
+                    <span className="text-xs opacity-60 font-normal lowercase">{b.tipoContencion || "granel"}</span>
                   </td>
                   <td className="money">
                     {formatCLP(b.costoMaterias)}
@@ -201,7 +213,7 @@ export default function ProduccionPage() {
                 </select>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="input-label">Multiplicador</label>
                   <input
@@ -230,10 +242,57 @@ export default function ProduccionPage() {
                     onChange={(e) => setForm({ ...form, costosOcultos: e.target.value })}
                   />
                   <p className="text-xs mt-1" style={{ color: "var(--text-muted)" }}>
-                    Horas hombre, electricidad, etc.
+                    Gastos extra (opcional)
                   </p>
                 </div>
+                <div>
+                  <label className="input-label">Envasado</label>
+                  <select 
+                    className="input-field"
+                    value={form.tipoContencion}
+                    onChange={(e) => setForm({ ...form, tipoContencion: e.target.value })}
+                  >
+                    <option value="GRANEL">A Granel</option>
+                    <option value="ENVASADO">Envasado</option>
+                  </select>
+                </div>
               </div>
+
+              {form.tipoContencion === "ENVASADO" && (
+                <div className="rounded-xl border p-3 mt-4" style={{ borderColor: "var(--border)", background: "var(--bg-card)" }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="input-label" style={{ marginBottom: 0 }}>📦 Insumos de Empaque</span>
+                    <button type="button" className="text-xs font-medium" style={{ color: "var(--accent-cyan)" }} 
+                      onClick={() => setEmpaques([...empaques, { productoId: 0, cantidad: "" }])}>
+                      + Agregar Empaque
+                    </button>
+                  </div>
+                  {empaques.length === 0 && <p className="text-xs mb-2" style={{ color: "var(--text-muted)" }}>Añade envases, etiquetas, tapas, etc. (se descontarán del stock).</p>}
+                  <div className="space-y-2">
+                    {empaques.map((emp, i) => (
+                      <div key={i} className="flex gap-2 relative">
+                        <select className="input-field flex-1" value={emp.productoId} 
+                          onChange={(e) => {
+                            const newE = [...empaques];
+                            newE[i].productoId = Number(e.target.value);
+                            setEmpaques(newE);
+                          }}>
+                          <option value={0} disabled>Seleccionar empaque...</option>
+                          {empaquesData.map(p => <option key={p.id} value={p.id}>{p.nombre} (Libre: {p.stockActual})</option>)}
+                        </select>
+                        <input className="input-field w-24" type="number" step="1" placeholder="Cant." value={emp.cantidad}
+                          onChange={(e) => {
+                            const newE = [...empaques];
+                            newE[i].cantidad = e.target.value;
+                            setEmpaques(newE);
+                          }}/>
+                        <button type="button" className="text-xs px-2 rounded" style={{ color: "var(--accent-rose)" }} 
+                          onClick={() => setEmpaques(empaques.filter((_, idx) => idx !== i))}>✕</button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Preview */}
               {selectedReceta && (

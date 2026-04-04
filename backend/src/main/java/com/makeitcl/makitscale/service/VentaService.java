@@ -104,9 +104,11 @@ public class VentaService {
             totalVenta = totalVenta.add(subtotalVenta);
             costoRealTotal = costoRealTotal.add(costoReal);
 
-            // Descontar stock
-            producto.setStockActual(producto.getStockActual().subtract(cantidad));
-            productoRepository.save(producto);
+            // Descontar stock si la venta lo indica (ej: factura directa o guía de despacho)
+            if (Boolean.TRUE.equals(venta.getRebajaStock())) {
+                producto.setStockActual(producto.getStockActual().subtract(cantidad));
+                productoRepository.save(producto);
+            }
 
             // Set parent reference
             detalle.setVenta(venta);
@@ -120,13 +122,16 @@ public class VentaService {
                 costoRealTotal.setScale(2, ROUNDING));
         venta.setMargenBruto(margenBruto);
 
-        // % Margen
+        // % Margen (ROI Neto de Venta según Costo Real)
         BigDecimal porcentajeMargen = BigDecimal.ZERO;
-        if (totalVenta.compareTo(BigDecimal.ZERO) > 0) {
+        if (costoRealTotal.compareTo(BigDecimal.ZERO) > 0) {
             porcentajeMargen = margenBruto
-                    .divide(totalVenta, 4, ROUNDING)
+                    .divide(costoRealTotal, 4, ROUNDING)
                     .multiply(new BigDecimal("100"))
                     .setScale(2, ROUNDING);
+        } else if (totalVenta.compareTo(BigDecimal.ZERO) > 0) {
+            // Si el costo es 0 pero hay venta, el margen sobre costo es simbólicamente 100%
+            porcentajeMargen = new BigDecimal("100.00");
         }
         venta.setPorcentajeMargen(porcentajeMargen);
 

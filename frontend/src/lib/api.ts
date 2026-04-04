@@ -112,6 +112,8 @@ export async function producirBatch(data: {
   recetaId: number;
   multiplicador: number;
   costosOcultos: number;
+  tipoContencion?: string;
+  empaques?: { productoId: number; cantidad: number }[];
 }): Promise<BatchProduccion> {
   return request<BatchProduccion>("/produccion", {
     method: "POST",

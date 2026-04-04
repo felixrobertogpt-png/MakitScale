@@ -23,6 +23,10 @@ public class DetalleBatchConsumo {
     @JoinColumn(name = "batch_id", nullable = false)
     private BatchProduccion batch;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "detalle_compra_origen_id")
+    private DetalleCompra detalleCompraOrigen;
+
     /**
      * Materia prima consumida.
      */
@@ -71,4 +75,7 @@ public class DetalleBatchConsumo {
 
     public BigDecimal getCostoLinea() { return costoLinea; }
     public void setCostoLinea(BigDecimal costoLinea) { this.costoLinea = costoLinea; }
+
+    public DetalleCompra getDetalleCompraOrigen() { return detalleCompraOrigen; }
+    public void setDetalleCompraOrigen(DetalleCompra detalleCompraOrigen) { this.detalleCompraOrigen = detalleCompraOrigen; }
 }
