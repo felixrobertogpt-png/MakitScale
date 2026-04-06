@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://makitscale-production.up.railway.app/api";
+
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -19,7 +21,7 @@ export default function RegisterPage() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/auth/register", {
+      const res = await fetch(`${BASE_URL}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password, empresa, email })
