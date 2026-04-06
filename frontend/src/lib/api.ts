@@ -6,7 +6,7 @@
 import Cookies from "js-cookie";
 import type { Producto, Proveedor, Compra, Receta, TipoProducto, BatchProduccion, Venta } from "./types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "https://makitscale-production.up.railway.app/api";
 
 async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const token = Cookies.get("makitscale_token");
