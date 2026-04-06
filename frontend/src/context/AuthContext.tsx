@@ -55,13 +55,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     });
     const decoded = jwtDecode<User>(token);
     setUser({ ...decoded, ...userData });
-    router.push("/");
+    // Full reload ensures middleware sees the cookie on the next request
+    window.location.href = "/";
   };
 
   const logout = () => {
-    Cookies.remove("makitscale_token");
+    Cookies.remove("makitscale_token", { path: "/" });
     setUser(null);
-    router.push("/login");
+    window.location.href = "/login";
   };
 
   return (
