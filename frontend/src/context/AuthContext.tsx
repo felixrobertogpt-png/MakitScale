@@ -47,9 +47,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const login = (token: string, userData: any) => {
-    Cookies.set("makitscale_token", token, { expires: 1 }); // 1 día
-    // Si tenemos la data completa del response, podemos guardarla
-    // Por simplicidad para el MVP, confiamos en el token o lo decodificamos
+    Cookies.set("makitscale_token", token, {
+      expires: 1,
+      path: "/",
+      sameSite: "Lax",
+      secure: window.location.protocol === "https:",
+    });
     const decoded = jwtDecode<User>(token);
     setUser({ ...decoded, ...userData });
     router.push("/");
