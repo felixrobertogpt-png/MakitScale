@@ -1,0 +1,13 @@
+name = "makitscale-api"
+main = "src/index.ts"
+compatibility_date = "2025-04-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "makitscale-db"
+database_id = "d8180188-9d91-4c26-9d60-403e0d9c689e"
+
+[vars]
+JWT_SECRET = "makitscale-jwt-secret-change-in-production-2026"
+CORS_ORIGIN = "https://makitscale.pages.dev"
+CORS_ORIGIN_VERCEL = "https://makit-scale.vercel.app"
